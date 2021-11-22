@@ -1,7 +1,7 @@
 import { Connection, createConnections } from "typeorm";
 
-import { mysqlConnectionOptions } from "./connections";
+import { pgsqlConnectionOptions } from "./connections";
 
 export const createDatabasesConnections = (): Promise<Connection[]> => {
-    return createConnections([mysqlConnectionOptions()]);
+    return createConnections([pgsqlConnectionOptions()]);
 }

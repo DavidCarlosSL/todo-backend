@@ -36,4 +36,4 @@ loadServerUtils().then(() => {
     }
 }).catch((error) => {
     console.error("Something went wrong while starting application", error);
-})
+});
