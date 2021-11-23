@@ -6,8 +6,6 @@ import cors from 'cors';
 
 import routes from './routes/index';
 
-import { createDatabasesConnections } from "./database";
-
 const server = express();
 
 const loadServerUtils = async (): Promise<void> => {
@@ -22,8 +20,6 @@ const loadServerUtils = async (): Promise<void> => {
         const dotenv = await import('dotenv');
         dotenv.config();
     }
-
-    await createDatabasesConnections();
 }
 
 loadServerUtils().then(() => {
