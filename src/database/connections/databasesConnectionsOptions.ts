@@ -1,6 +1,6 @@
 import { ConnectionOptions } from "typeorm";
 
-export const pgsqlConnectionOptions = (): ConnectionOptions => {
+export function pgsqlConnectionOptions(): ConnectionOptions {
     return {
         name: "pgsql",
         type: "postgres",

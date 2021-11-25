@@ -1,7 +1,15 @@
-import { Connection, createConnections } from "typeorm";
+import { Connection, createConnection } from "typeorm";
 
-import { pgsqlConnectionOptions } from "./connections";
+import { pgsqlConnectionOptions } from "./connections/databasesConnectionsOptions";
 
-export const createDatabasesConnections = (): Promise<Connection[]> => {
-    return createConnections([pgsqlConnectionOptions()]);
+async function createPgsqlDatabaseConnection(): Promise<Connection> { return createConnection(pgsqlConnectionOptions()); }
+
+export async function loadDatabasesConnections(): Promise<void> {
+    try{
+        await createPgsqlDatabaseConnection();
+        
+        console.log("Connections with databases established");
+    }catch(error){
+        console.error("Connections with databases failed", error);
+    }
 }
