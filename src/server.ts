@@ -6,31 +6,36 @@ import cors from 'cors';
 
 import { loadDatabasesConnections } from "./database";
 
-const server = express();
+import message from './utils/messages/index.json';
+
+const app = express();
+
+let serverPort: string | undefined;
 
 async function loadServerUtils(): Promise<void> {
-    server.use(helmet());
-    server.use(cors());
+    app.use(helmet());
+    app.use(cors());
 
-    server.use(express.json());
+    app.use(express.json());
 
     if(process.env.NODE_ENV == "development"){
         const dotenv = await import('dotenv');
         dotenv.config();
     }
 
+    if(process.env.APPLICATION_PORT == undefined)
+        throw new Error(message.application_port_undefined);
+        
+    serverPort = process.env.APPLICATION_PORT;
+
     await loadDatabasesConnections();
 
     const routes = await import('./routes/index');
-    server.use(routes.default);
+    app.use(routes.default);
 }
 
-loadServerUtils().then(() => {
-    const serverPort = process.env.APPLICATION_PORT;
-    if(serverPort != undefined)
-        server.listen(serverPort, () => { console.log(`API is listening on port ${serverPort}`); });
-    else{
-        console.error("APPLICATION_PORT is undefined");
-        process.exitCode = 1;
-    }
-}).catch((error) => { console.error("Something went wrong while starting application", error); });
+loadServerUtils().then(() => { 
+    app.listen(serverPort, () => { console.log(`${message.api_listening_on_port} ${serverPort}`); });
+}).catch((error) => { 
+    console.error(message.something_wrong_starting_application, error); 
+});

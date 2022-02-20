@@ -8,8 +8,7 @@ export async function loadDatabasesConnections(): Promise<void> {
     try{
         await createPgsqlDatabaseConnection();
         
-        console.log("Connections with databases established");
     }catch(error){
-        console.error("Connections with databases failed", error);
+        
     }
 }

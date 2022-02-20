@@ -1,0 +1,5 @@
+{
+    "api_listening_on_port": "API is listening on port",
+    "application_port_undefined": "APPLICATION_PORT is undefined",
+    "something_wrong_starting_application": "Something went wrong while starting application"
+}

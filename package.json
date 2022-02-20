@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/DavidCarlosSL/todo-backend#readme",
   "dependencies": {
+    "bcrypt": "5.0.1",
     "cors": "2.8.5",
     "express": "4.17.1",
     "helmet": "4.6.0",
+    "joi": "17.5.0",
     "pg": "8.7.1",
     "reflect-metadata": "0.1.13",
     "typeorm": "0.2.40"
