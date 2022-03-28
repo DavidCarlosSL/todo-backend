@@ -1,11 +1,13 @@
-import { Connection, getConnection, Repository } from "typeorm";
+import { Connection, getConnection, InsertResult, Repository } from "typeorm";
 
-import { UserEntity } from "../../entities/user/user.entity";
+import { IUser, UserEntity } from "../../entities/user/user.entity";
 
-import { IUserAuthenticationInput, IUserAuthenticationOutput } from "../../interfaces/user/user-authentication.interface";
+import { getUserByEmailInput } from "../../interfaces/user/user-authentication.authenticate.interface";
+import { IEnrollUserInput } from "../../interfaces/user/user-authentication.enroll.interface";
 
 export interface IUserService {
-    getUserByEmailAndPassword(userAuthenticationInput: IUserAuthenticationInput): Promise<IUserAuthenticationOutput | undefined>
+    getUserByEmail(getUserByEmailInput: getUserByEmailInput): Promise<IUser | undefined>;
+    enrollUser(enrollUserInput: IEnrollUserInput): Promise<InsertResult | undefined>;
 }
 
 export class UserService implements IUserService {
@@ -17,15 +19,27 @@ export class UserService implements IUserService {
         this.userRepository = this.pgsqlConnection.getRepository(UserEntity);
     }
 
-    public async getUserByEmailAndPassword(userAuthenticationInput: IUserAuthenticationInput): Promise<IUserAuthenticationOutput | undefined> {
+    public async getUserByEmail(getUserByEmailInput: getUserByEmailInput): Promise<IUser | undefined> {
         try{
             return await this.userRepository.createQueryBuilder()
-            .where("user_email = :userEmail AND user_password = :userPassword", {
-                userEmail: userAuthenticationInput.userEmail, 
-                userPassword: userAuthenticationInput.userPassword
-            }).getOne();
-        }catch{ 
-            
+            .where("user_email = :userEmail", { userEmail: getUserByEmailInput.userEmail }).getOne();
+        }catch(error){ 
+            throw error;
+        }
+    }
+
+    public async enrollUser(enrollUserInput: IEnrollUserInput): Promise<InsertResult | undefined>{
+        try{
+            return await this.userRepository.createQueryBuilder().insert().into(UserEntity)
+            .values([{
+                user_name: enrollUserInput.userName,
+                user_email: enrollUserInput.userEmail,
+                user_password: enrollUserInput.userPassword,
+                user_createdAt: enrollUserInput.userCreatedAt
+            }])
+            .execute();
+        }catch(error){
+            throw error;
         }
     }
 }

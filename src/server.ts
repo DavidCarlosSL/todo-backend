@@ -24,11 +24,13 @@ async function loadServerUtils(): Promise<void> {
     }
 
     if(process.env.APPLICATION_PORT == undefined)
-        throw new Error(message.application_port_undefined);
-        
-    serverPort = process.env.APPLICATION_PORT;
+        throw new Error(message.error.application_port_undefined);
+    else
+        serverPort = process.env.APPLICATION_PORT;
 
-    await loadDatabasesConnections();
+    let sucessfullyLoaded = await loadDatabasesConnections();
+    if(sucessfullyLoaded == false)
+        throw new Error(message.error.connection_databases_failed);
 
     const routes = await import('./routes/index');
     app.use(routes.default);
@@ -37,5 +39,5 @@ async function loadServerUtils(): Promise<void> {
 loadServerUtils().then(() => { 
     app.listen(serverPort, () => { console.log(`${message.api_listening_on_port} ${serverPort}`); });
 }).catch((error) => { 
-    console.error(message.something_wrong_starting_application, error); 
+    console.error(message.error.something_wrong_starting_application, error); 
 });

@@ -15,7 +15,6 @@ export class HealthCheckService implements IHealthCheckService {
 
             return true;
         }catch{
-
             return false;
         }
     }

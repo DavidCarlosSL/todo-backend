@@ -1,5 +1,9 @@
 {
     "api_listening_on_port": "API is listening on port",
-    "application_port_undefined": "APPLICATION_PORT is undefined",
-    "something_wrong_starting_application": "Something went wrong while starting application"
+    "error": {
+        "application_port_undefined": "APPLICATION_PORT is undefined",
+        "something_wrong_starting_application": "Something went wrong while starting application",
+        "something_wrong_try_again_later": "Something went wrong. Try again later",
+        "connection_databases_failed": "Connection with databases failed"
+    }
 }
