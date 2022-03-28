@@ -4,12 +4,15 @@ import { pgsqlConnectionOptions } from "./connections/databasesConnectionsOption
 
 async function createPgsqlDatabaseConnection(): Promise<Connection> { return createConnection(pgsqlConnectionOptions()); }
 
-export async function loadDatabasesConnections(): Promise<void> {
+export async function loadDatabasesConnections(): Promise<boolean> {
+    let sucessfullyLoaded: boolean = false;
     try{
-        await createPgsqlDatabaseConnection();
+        await Promise.all([createPgsqlDatabaseConnection()]);
         
-        console.log("Connections with databases established");
-    }catch(error){
-        console.error("Connections with databases failed", error);
+        sucessfullyLoaded = true;
+    }catch{
+        sucessfullyLoaded = false;
+    }finally{
+        return sucessfullyLoaded;
     }
 }

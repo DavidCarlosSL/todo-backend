@@ -14,9 +14,7 @@ export class HealthCheckService implements IHealthCheckService {
             await this.pgsqlConnection.query("SELECT 1 + 1;");
 
             return true;
-        }catch(error){
-            console.error("Querying pgsql database failed", error);
-
+        }catch{
             return false;
         }
     }

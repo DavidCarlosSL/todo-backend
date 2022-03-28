@@ -1,0 +1,5 @@
+{
+    "no_user_found": "No user found. Check email and password",
+    "email_being_used": "The given email is already being used",
+    "user_enrolled_successfully": "User has enrolled successfully"
+}
