@@ -8,5 +8,7 @@ export interface getUserByEmailInput {
 }
 
 export interface IAuthenticateUserOutput {
-    jwt: string;
+    userFound: boolean;
+    message?: string;
+    jwt?: string;
 }

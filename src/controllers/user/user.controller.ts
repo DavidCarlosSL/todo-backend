@@ -17,7 +17,11 @@ class UserController {
     constructor(private userService: IUserService, private jwtService: IJwtService) {}
 
     public async authenticateUser(req: Request, res: Response) {
-        const noUserFound = () => { return res.status(200).send({userFound: false, message: messageUser.no_user_found}); };
+        let authenticateUserOutput: IAuthenticateUserOutput;
+        const noUserFound = () => { 
+            authenticateUserOutput = { userFound: false, message: messageUser.no_user_found }
+            return res.status(200).send(authenticateUserOutput); 
+        };
         try{
             const { userEmail, userPassword }: IAuthenticateUserBody = req.body;
 
@@ -36,9 +40,9 @@ class UserController {
                 userName: getUserByEmailResponse.user_name 
             };
             const jwt = await this.jwtService.signJwt(jwtPayload);
-            const userJwt: IAuthenticateUserOutput = { jwt: jwt };
+            authenticateUserOutput = { userFound: true, jwt: jwt };
 
-            res.status(200).send({userFound: true, userJwt: userJwt});
+            res.status(200).send(authenticateUserOutput);
         }catch{
             res.status(500).send({message: message.error.something_wrong_try_again_later});
         }
