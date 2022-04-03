@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+
+import { ITask, TaskEntity } from "../task/task.entity";
 
 export interface IUser {
     user_id: number;
@@ -6,6 +8,7 @@ export interface IUser {
     user_email: string;
     user_password: string;
     user_createdAt: Date | string;
+    tasks: ITask[];
 }
 
 @Entity({name: "user"})
@@ -25,4 +28,7 @@ export class UserEntity implements IUser {
     
     @CreateDateColumn({name: "user_createdAt", nullable: false})
     user_createdAt: Date | string;
+
+    @OneToMany(() => TaskEntity, task => task.task_user)
+    tasks: ITask[];
 }
