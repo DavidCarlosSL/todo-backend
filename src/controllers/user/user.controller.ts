@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { IUserService, UserService } from "../../services/user/user.service";
 import { IJwtService, JwtService } from "../../services/jsonwebtoken/jwt.service";
 
-import { IAuthenticateUserBody, getUserByEmailInput, IAuthenticateUserOutput } from "../../interfaces/user/user-authentication.authenticate.interface";
+import { IAuthenticateUserBody, IGetUserByEmailInput, IAuthenticateUserOutput } from "../../interfaces/user/user-authentication.authenticate.interface";
 import { IEnrollUserBody, IEnrollUserInput } from "../../interfaces/user/user-authentication.enroll.interface";
 import { ISignJwtInput } from "../../interfaces/jwt/jwt.interface";
 
@@ -25,7 +25,7 @@ class UserController {
         try{
             const { userEmail, userPassword }: IAuthenticateUserBody = req.body;
 
-            const userToAuthenticate: getUserByEmailInput = { userEmail: userEmail };
+            const userToAuthenticate: IGetUserByEmailInput = { userEmail: userEmail };
 
             const getUserByEmailResponse = await this.userService.getUserByEmail(userToAuthenticate);
             if(getUserByEmailResponse == undefined)
@@ -52,7 +52,7 @@ class UserController {
         try{
             const { userName, userEmail, userPassword }: IEnrollUserBody = req.body;
 
-            const userToVerifyEnrollment: getUserByEmailInput = { userEmail: userEmail };
+            const userToVerifyEnrollment: IGetUserByEmailInput = { userEmail: userEmail };
 
             const getUserByEmailResponse = await this.userService.getUserByEmail(userToVerifyEnrollment);
             if(getUserByEmailResponse != undefined)
