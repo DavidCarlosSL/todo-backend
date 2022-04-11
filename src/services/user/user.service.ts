@@ -2,11 +2,11 @@ import { Connection, getConnection, InsertResult, Repository } from "typeorm";
 
 import { IUser, UserEntity } from "../../entities/user/user.entity";
 
-import { getUserByEmailInput } from "../../interfaces/user/user-authentication.authenticate.interface";
+import { IGetUserByEmailInput } from "../../interfaces/user/user-authentication.authenticate.interface";
 import { IEnrollUserInput } from "../../interfaces/user/user-authentication.enroll.interface";
 
 export interface IUserService {
-    getUserByEmail(getUserByEmailInput: getUserByEmailInput): Promise<IUser | undefined>;
+    getUserByEmail(getUserByEmailInput: IGetUserByEmailInput): Promise<IUser | undefined>;
     enrollUser(enrollUserInput: IEnrollUserInput): Promise<InsertResult | undefined>;
 }
 
@@ -19,7 +19,7 @@ export class UserService implements IUserService {
         this.userRepository = this.pgsqlConnection.getRepository(UserEntity);
     }
 
-    public async getUserByEmail(getUserByEmailInput: getUserByEmailInput): Promise<IUser | undefined> {
+    public async getUserByEmail(getUserByEmailInput: IGetUserByEmailInput): Promise<IUser | undefined> {
         try{
             return await this.userRepository.createQueryBuilder()
             .where("user_email = :userEmail", { userEmail: getUserByEmailInput.userEmail }).getOne();

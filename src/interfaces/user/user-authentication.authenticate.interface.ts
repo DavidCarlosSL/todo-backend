@@ -3,7 +3,7 @@ export interface IAuthenticateUserBody {
     userPassword: string;
 }
 
-export interface getUserByEmailInput {
+export interface IGetUserByEmailInput {
     userEmail: string;
 }
 
