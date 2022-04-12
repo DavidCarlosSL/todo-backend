@@ -18,9 +18,9 @@ export interface IVerifyUserJwtOutput {
 }
 
 export interface IUserJwtPayload extends JwtPayload {
-    payload?: ISignJwtInput;
+    payload: ISignJwtInput;
 }
 
 export interface IJwtRequest extends Request {
-    userJwt?: IUserJwtPayload;
+    userJwt: IUserJwtPayload;
 }

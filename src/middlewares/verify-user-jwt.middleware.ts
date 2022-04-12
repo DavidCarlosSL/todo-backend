@@ -20,12 +20,14 @@ export function verifyUserJwt() {
 
             const jwtService = new JwtService();
 
-            const verifiedJwt: IUserJwtPayload | string = await jwtService.verifyJwt({jwt: authorization});
+            const verifiedJwt = await jwtService.verifyJwt({jwt: authorization});
             if(typeof verifiedJwt === "string")
                 throw new Error();
+
+            const userJwt: IUserJwtPayload = { payload: { userId: verifiedJwt.userId, userName: verifiedJwt.userName } };
             
-            req.userJwt = verifiedJwt;
-             
+            req.userJwt = userJwt;
+
             next();
         }catch(error){
             if(typeof error === "object"){ //Type of error thrown by jsonwebtoken.verify when JWT is invalid
