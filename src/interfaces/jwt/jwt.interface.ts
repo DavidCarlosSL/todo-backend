@@ -1,7 +1,3 @@
-import { Request } from "express";
-
-import { JwtPayload } from "jsonwebtoken";
-
 export interface ISignJwtInput {
     userId: number;
     userName: string;
@@ -17,10 +13,6 @@ export interface IVerifyUserJwtOutput {
     message: string;
 }
 
-export interface IUserJwtPayload extends JwtPayload {
+export interface IDecodedUserJwt {
     payload: ISignJwtInput;
-}
-
-export interface IJwtRequest extends Request {
-    userJwt: IUserJwtPayload;
 }

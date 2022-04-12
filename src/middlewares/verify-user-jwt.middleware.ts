@@ -1,6 +1,6 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
-import { IJwtRequest, IUserJwtPayload, IVerifyUserJwtOutput } from "../interfaces/jwt/jwt.interface";
+import { IDecodedUserJwt, IVerifyUserJwtOutput } from "../interfaces/jwt/jwt.interface";
 
 import { JwtService } from "../services/jsonwebtoken/jwt.service";
 
@@ -8,7 +8,7 @@ import message from "../utils/messages/index.json";
 import jwtMessage from "../utils/messages/jwt/jwt.messages.json"
 
 export function verifyUserJwt() {
-    return async (req: IJwtRequest, res: Response, next: NextFunction) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
         let verifyUserJwtOutput: IVerifyUserJwtOutput;
         try{
             const authorization = req.header("authorization");
@@ -24,9 +24,9 @@ export function verifyUserJwt() {
             if(typeof verifiedJwt === "string")
                 throw new Error();
 
-            const userJwt: IUserJwtPayload = { payload: { userId: verifiedJwt.userId, userName: verifiedJwt.userName } };
+            const decodedUserJwt: IDecodedUserJwt = { payload: { userId: verifiedJwt.userId, userName: verifiedJwt.userName } };
             
-            req.userJwt = userJwt;
+            req.body.userJwt = decodedUserJwt;
 
             next();
         }catch(error){
