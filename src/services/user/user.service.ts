@@ -22,7 +22,8 @@ export class UserService implements IUserService {
     public async getUserByEmail(getUserByEmailInput: IGetUserByEmailInput): Promise<IUser | undefined> {
         try{
             return await this.userRepository.createQueryBuilder()
-            .where("user_email = :userEmail", { userEmail: getUserByEmailInput.userEmail }).getOne();
+            .where("user_email = :userEmail", { userEmail: getUserByEmailInput.userEmail })
+            .getOne();
         }catch(error){ 
             throw error;
         }
@@ -30,7 +31,9 @@ export class UserService implements IUserService {
 
     public async enrollUser(enrollUserInput: IEnrollUserInput): Promise<InsertResult | undefined>{
         try{
-            return await this.userRepository.createQueryBuilder().insert().into(UserEntity)
+            return await this.userRepository.createQueryBuilder()
+            .insert()
+            .into(UserEntity)
             .values([{
                 user_name: enrollUserInput.userName,
                 user_email: enrollUserInput.userEmail,
