@@ -7,12 +7,12 @@ export interface ITask {
     task_title: string;
     task_description: string;
     task_status: TaskStatus;
-    task_date_conclusion: Date | string;
+    task_date_conclusion: Date | string | null;
     task_createdAt: Date | string;
-    task_user: IUser;
+    task_user: IUser | number;
 }
 
-enum TaskStatus {
+export enum TaskStatus {
     concluded = "Concluded",
     canceled = "Canceled",
     ongoing = "Ongoing",
@@ -31,16 +31,16 @@ export class TaskEntity implements ITask {
     @Column({name: "task_description", type: "varchar", nullable: true, length: 300})
     task_description: string;
 
-    @Column({name: "task_status", type: "enum", enum: TaskStatus, default: TaskStatus.ongoing, nullable: false})
+    @Column({name: "task_status", type: "enum", enum: TaskStatus, nullable: false})
     task_status: TaskStatus;
     
-    @CreateDateColumn({name: "task_date_conclusion", nullable: false})
-    task_date_conclusion: Date | string;
+    @CreateDateColumn({name: "task_date_conclusion", nullable: true, default: () => "null"})
+    task_date_conclusion: Date | string | null;
 
     @CreateDateColumn({name: "task_createdAt", nullable: false})
     task_createdAt: Date | string;
 
     @JoinColumn({name: "task_user"})
     @ManyToOne(() => UserEntity, task_user => task_user.tasks)
-    task_user: IUser;
+    task_user: IUser | number;
 }
