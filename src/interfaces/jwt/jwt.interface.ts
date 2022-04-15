@@ -16,3 +16,7 @@ export interface IVerifyUserJwtOutput {
 export interface IDecodedUserJwt {
     payload: ISignJwtInput;
 }
+
+export interface IUserJwtBodyRequest {
+    userJwt: IDecodedUserJwt;
+}

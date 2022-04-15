@@ -11,7 +11,7 @@ import { ISignJwtInput } from "../../interfaces/jwt/jwt.interface";
 import message from "../../utils/messages/index.json";
 import messageUser from "../../utils/messages/user/user.messages.json";
 
-import { getDateTime } from "../../utils/dateTime";
+import { getDateTime } from "../../utils/dateTime/dateTime.util";
 
 class UserController {
     constructor(private userService: IUserService, private jwtService: IJwtService) {}
