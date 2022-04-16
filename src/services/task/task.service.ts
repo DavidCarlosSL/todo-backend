@@ -3,12 +3,12 @@ import { Connection, DeleteResult, getConnection, InsertResult, Repository, Upda
 import { ITask, TaskEntity } from "../../entities/task/task.entity";
 
 import { IGetTaskByTaskIdAndUserIdInput, IGetTasksByUserIdInput } from "../../interfaces/task/task-get.interface";
-import { IInsertUserTaskInput } from "../../interfaces/task/task-insert.interface";
+import { IInsertTaskInput } from "../../interfaces/task/task-insert.interface";
 import { IDeleteTaskByTaskIdAndUserIdInput } from "../../interfaces/task/task-delete.interface";
 import { IUpdateTaskByTaskIdAndUserIdInput, IUpdateTaskDateConclusionByTaskIdAndUserIdInput } from "../../interfaces/task/task-update.interface";
 
 export interface ITaskService {
-    insertUserTask(insertUserTaskInput: IInsertUserTaskInput): Promise<InsertResult>
+    insertTask(insertTaskInput: IInsertTaskInput): Promise<InsertResult>
     getTasksByUserId(getTasksByUserIdInput: IGetTasksByUserIdInput): Promise<ITask[]>
     getTaskByTaskIdAndUserId(getTaskByTaskIdAndUserIdInput: IGetTaskByTaskIdAndUserIdInput): Promise<ITask | undefined>
     deleteTaskByTaskIdAndUserId(deleteTaskByTaskIdAndUserIdInput: IDeleteTaskByTaskIdAndUserIdInput): Promise<DeleteResult>
@@ -25,7 +25,7 @@ export class TaskService implements ITaskService {
         this.taskRepository = this.pgsqlConnection.getRepository(TaskEntity);
     }
 
-    public async insertUserTask(insertUserTaskInput: IInsertUserTaskInput): Promise<InsertResult>{
+    public async insertTask(insertUserTaskInput: IInsertTaskInput): Promise<InsertResult>{
         try{
             return await this.taskRepository.createQueryBuilder()
             .insert()

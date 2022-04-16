@@ -14,19 +14,19 @@ export interface IUpdateTaskByTaskIdAndUserIdInput {
     task: ITaskUpdateInput
 }
 
-export interface IUpdateUserTaskOutput {
+export interface IUpdateTaskOutput {
     taskFound: boolean,
     taskUpdated: boolean,
     message: string;
 }
 
-export interface IUpdateUserTaskDateConclusionOutput {
+export interface IUpdateTaskDateConclusionOutput {
     taskFound: boolean,
     taskUpdated: boolean,
     message: string;
 }
 
-export interface IUpdateUserTaskBody extends IUserJwtBodyRequest, ITaskUpdateInput {}
+export interface IUpdateTaskBody extends IUserJwtBodyRequest, ITaskUpdateInput {}
 
 export interface IUpdateTaskDateConclusionByTaskIdAndUserIdInput {
     taskUserId: number;
@@ -34,6 +34,6 @@ export interface IUpdateTaskDateConclusionByTaskIdAndUserIdInput {
     taskDateConclusion: string | null;
 }
 
-export interface IUpdateUserTaskDateConclusionBody extends IUserJwtBodyRequest {
+export interface IUpdateTaskDateConclusionBody extends IUserJwtBodyRequest {
     taskCompleted: boolean;
 }

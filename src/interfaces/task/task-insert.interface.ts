@@ -2,7 +2,7 @@ import { TaskStatus } from "../../entities/task/task.entity";
 
 import { IUserJwtBodyRequest } from "../jwt/jwt.interface";
 
-export interface IInsertUserTaskInput {
+export interface IInsertTaskInput {
     taskTitle: string;
     taskDescription: string;
     taskStatus: TaskStatus;
@@ -10,13 +10,13 @@ export interface IInsertUserTaskInput {
     taskUserId: number;
 }
 
-export interface ISaveNewUserTaskBody extends IUserJwtBodyRequest {
+export interface ISaveNewTaskBody extends IUserJwtBodyRequest {
     taskTitle: string;
     taskDescription: string;
     taskStatus: TaskStatus;
 }
 
-export interface ISaveNewUserTaskOutput {
+export interface ISaveNewTaskOutput {
     newTaskSaved: boolean,
     task: { taskId: number },
     message: string;

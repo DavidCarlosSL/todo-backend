@@ -22,21 +22,21 @@ router.post(
     "/insert", 
     verifyUserJwt(), 
     validateRequestBody(JTasksTaskInsertBody.schema, JTasksTaskInsertBody.schemaValidateOptions), 
-    taskController.saveNewUserTask.bind(taskController)
+    taskController.saveNewTask.bind(taskController)
 );
 
 router.get(
     "/get/:taskId", 
     verifyUserJwt(),
     validateRequestParams(JTasksTaskGetParam.schema, JTasksTaskGetParam.schemaValidateOptions),
-    taskController.getUserTask.bind(taskController)
+    taskController.getTask.bind(taskController)
 );
 
 router.delete(
     "/delete/:taskId",
     verifyUserJwt(),
     validateRequestParams(JTasksTaskDeleteParam.schema, JTasksTaskDeleteParam.schemaValidateOptions),
-    taskController.deleteUserTask.bind(taskController)
+    taskController.deleteTask.bind(taskController)
 )
 
 router.put(
@@ -44,7 +44,7 @@ router.put(
     verifyUserJwt(),
     validateRequestParams(JTasksTaskUpdateParam.schema, JTasksTaskUpdateParam.schemaValidateOptions),
     validateRequestBody(JTasksTaskUpdateBody.schema, JTasksTaskUpdateBody.schemaValidateOptions),
-    taskController.updateUserTask.bind(taskController)
+    taskController.updateTask.bind(taskController)
 )
 
 router.put(
@@ -52,7 +52,7 @@ router.put(
     verifyUserJwt(),
     validateRequestParams(JTasksTaskUpdateDateConclusionParam.schema, JTasksTaskUpdateDateConclusionParam.schemaValidateOptions),
     validateRequestBody(JTasksTaskUpdateDateConclusionBody.schema, JTasksTaskUpdateDateConclusionBody.schemaValidateOptions),
-    taskController.updateUserTaskDateConclusion.bind(taskController)
+    taskController.updateTaskDateConclusion.bind(taskController)
 )
 
 export default router;
