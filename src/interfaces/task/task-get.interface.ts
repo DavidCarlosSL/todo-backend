@@ -11,17 +11,17 @@ export interface IGetTaskByTaskIdAndUserIdInput {
     taskUserId: number;
 }
 
-export interface IGetUserTasksBody extends IUserJwtBodyRequest {}
+export interface IGetTasksBody extends IUserJwtBodyRequest {}
 
-export interface IGetUserTaskBody extends IUserJwtBodyRequest {}
+export interface IGetTaskBody extends IUserJwtBodyRequest {}
 
-export interface IGetUserTasksOutput {
+export interface IGetTasksOutput {
     tasksFound: boolean;
     tasks?: ITask[];
     message: string;
 }
 
-export interface IGetUserTaskOutput {
+export interface IGetTaskOutput {
     taskFound: boolean;
     task?: ITask;
     message: string;

@@ -5,9 +5,9 @@ export interface IDeleteTaskByTaskIdAndUserIdInput {
     taskUserId: number;
 }
 
-export interface IDeleteUserTaskBody extends IUserJwtBodyRequest {}
+export interface IDeleteTaskBody extends IUserJwtBodyRequest {}
 
-export interface IDeleteUserTaskOutput {
+export interface IDeleteTaskOutput {
     taskFound: boolean,
     taskDeleted: boolean,
     message: string;

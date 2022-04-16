@@ -2,17 +2,17 @@ import { Request, Response } from "express";
 
 import { ITaskService, TaskService } from "../../services/task/task.service";
 
-import { IInsertUserTaskInput, ISaveNewUserTaskBody, ISaveNewUserTaskOutput } from "../../interfaces/task/task-insert.interface";
+import { IInsertTaskInput, ISaveNewTaskBody, ISaveNewTaskOutput } from "../../interfaces/task/task-insert.interface";
 import {
     IGetTaskByTaskIdAndUserIdInput,
     IGetTasksByUserIdInput,
-    IGetUserTaskBody,
-    IGetUserTaskOutput,
-    IGetUserTasksBody,
-    IGetUserTasksOutput
+    IGetTaskBody,
+    IGetTaskOutput,
+    IGetTasksBody,
+    IGetTasksOutput
 } from "../../interfaces/task/task-get.interface";
-import { IDeleteTaskByTaskIdAndUserIdInput, IDeleteUserTaskBody, IDeleteUserTaskOutput } from "../../interfaces/task/task-delete.interface";
-import { IUpdateTaskByTaskIdAndUserIdInput, IUpdateTaskDateConclusionByTaskIdAndUserIdInput, IUpdateUserTaskBody, IUpdateUserTaskDateConclusionBody, IUpdateUserTaskDateConclusionOutput, IUpdateUserTaskOutput } from "../../interfaces/task/task-update.interface";
+import { IDeleteTaskByTaskIdAndUserIdInput, IDeleteTaskBody, IDeleteTaskOutput } from "../../interfaces/task/task-delete.interface";
+import { IUpdateTaskByTaskIdAndUserIdInput, IUpdateTaskDateConclusionByTaskIdAndUserIdInput, IUpdateTaskBody, IUpdateTaskDateConclusionBody, IUpdateTaskDateConclusionOutput, IUpdateTaskOutput } from "../../interfaces/task/task-update.interface";
 
 import message from '../../utils/messages/index.json';
 import taskMessage from '../../utils/messages/task/task.messages.json';
@@ -22,58 +22,58 @@ import { getDateTime } from "../../utils/dateTime/dateTime.util";
 class TaskController {
     constructor(private taskService: ITaskService) {}
 
-    public async getUserTasks(req: Request, res: Response) {
-        let getUserTasksOutput: IGetUserTasksOutput;
+    public async getTasks(req: Request, res: Response) {
+        let getTasksOutput: IGetTasksOutput;
         try{
-            const { userJwt }: IGetUserTasksBody = req.body;
+            const { userJwt }: IGetTasksBody = req.body;
 
             const userToGetTasks: IGetTasksByUserIdInput = { taskUserId: userJwt.payload.userId };
 
             const getTasksByUserIdResponse = await this.taskService.getTasksByUserId(userToGetTasks);
             if(getTasksByUserIdResponse.length == 0){
-                getUserTasksOutput = { tasksFound: false, message: taskMessage.no_tasks_fround };
+                getTasksOutput = { tasksFound: false, message: taskMessage.no_tasks_fround };
                 
-                return res.status(200).send(getUserTasksOutput);
+                return res.status(200).send(getTasksOutput);
             }
 
-            getUserTasksOutput = { tasksFound: true, tasks: getTasksByUserIdResponse, message: taskMessage.tasks_found };
+            getTasksOutput = { tasksFound: true, tasks: getTasksByUserIdResponse, message: taskMessage.tasks_found };
 
-            res.status(200).send(getUserTasksOutput);
+            res.status(200).send(getTasksOutput);
         }catch{
             res.status(500).send({message: message.error.something_wrong_try_again_later});
         }
     }
 
-    public async getUserTask(req: Request, res: Response) {
-        let getUserTaskOutput: IGetUserTaskOutput;
+    public async getTask(req: Request, res: Response) {
+        let getTaskOutput: IGetTaskOutput;
         try{
             const { taskId } = req.params;
-            const { userJwt }: IGetUserTaskBody = req.body;
+            const { userJwt }: IGetTaskBody = req.body;
 
             const taskToGet: IGetTaskByTaskIdAndUserIdInput = { taskId: parseInt(taskId), taskUserId: userJwt.payload.userId };
 
-            const getTaskByUserIdResponse = await this.taskService.getTaskByTaskIdAndUserId(taskToGet);
-            if(getTaskByUserIdResponse == undefined){
-                getUserTaskOutput = { taskFound: false, message: taskMessage.no_task_found };
+            const getTaskByTaskIdAndUserIdResponse = await this.taskService.getTaskByTaskIdAndUserId(taskToGet);
+            if(getTaskByTaskIdAndUserIdResponse == undefined){
+                getTaskOutput = { taskFound: false, message: taskMessage.no_task_found };
                 
-                return res.status(200).send(getUserTaskOutput);
+                return res.status(200).send(getTaskOutput);
             }
 
-            getUserTaskOutput = { taskFound: true, task: getTaskByUserIdResponse, message: taskMessage.task_found };
+            getTaskOutput = { taskFound: true, task: getTaskByTaskIdAndUserIdResponse, message: taskMessage.task_found };
 
-            res.status(200).send(getUserTaskOutput);
+            res.status(200).send(getTaskOutput);
         }catch{
             res.status(500).send({message: message.error.something_wrong_try_again_later});
         }
     }
 
-    public async saveNewUserTask(req: Request, res: Response) {
+    public async saveNewTask(req: Request, res: Response) {
         try{
-            const { userJwt, taskTitle, taskDescription, taskStatus }: ISaveNewUserTaskBody = req.body;
+            const { userJwt, taskTitle, taskDescription, taskStatus }: ISaveNewTaskBody = req.body;
 
             const now = getDateTime();
 
-            const taskToInsert: IInsertUserTaskInput = {
+            const taskToInsert: IInsertTaskInput = {
                 taskTitle: taskTitle,
                 taskDescription: taskDescription,
                 taskStatus: taskStatus,
@@ -81,48 +81,48 @@ class TaskController {
                 taskUserId: userJwt.payload.userId
             }
 
-            const insertUserTaskResponse = await this.taskService.insertUserTask(taskToInsert);
+            const insertTaskResponse = await this.taskService.insertTask(taskToInsert);
 
-            const saveNewUserTaskOutput: ISaveNewUserTaskOutput = { 
+            const saveNewTaskOutput: ISaveNewTaskOutput = { 
                 newTaskSaved: true,
-                task: { taskId: insertUserTaskResponse.identifiers[0].task_id },
+                task: { taskId: insertTaskResponse.identifiers[0].task_id },
                 message: taskMessage.new_task_saved
             };
 
-            res.status(200).send(saveNewUserTaskOutput);
+            res.status(200).send(saveNewTaskOutput);
         }catch{
             res.status(500).send({message: message.error.something_wrong_try_again_later});
         }
     }
 
-    public async deleteUserTask(req: Request, res: Response){
-        let deleteUserTaskOutput: IDeleteUserTaskOutput;
+    public async deleteTask(req: Request, res: Response){
+        let deleteTaskOutput: IDeleteTaskOutput;
         try{
             const { taskId } = req.params;
-            const { userJwt }: IDeleteUserTaskBody = req.body;
+            const { userJwt }: IDeleteTaskBody = req.body;
 
             const taskToDelete: IDeleteTaskByTaskIdAndUserIdInput = { taskId: parseInt(taskId), taskUserId: userJwt.payload.userId };
 
             const deleteTaskByTaskIdAndUserIdResponse = await this.taskService.deleteTaskByTaskIdAndUserId(taskToDelete);
             if(deleteTaskByTaskIdAndUserIdResponse.affected == 0){
-                deleteUserTaskOutput = { taskFound: false, taskDeleted: false, message: taskMessage.no_task_found }
+                deleteTaskOutput = { taskFound: false, taskDeleted: false, message: taskMessage.no_task_found }
 
-                return res.status(200).send(deleteUserTaskOutput);
+                return res.status(200).send(deleteTaskOutput);
             }
 
-            deleteUserTaskOutput = { taskFound: true, taskDeleted: true, message: taskMessage.task_deleted }
+            deleteTaskOutput = { taskFound: true, taskDeleted: true, message: taskMessage.task_deleted }
 
-            res.status(200).send(deleteUserTaskOutput);
+            res.status(200).send(deleteTaskOutput);
         }catch{
             res.status(500).send({message: message.error.something_wrong_try_again_later});
         }
     }
 
-    public async updateUserTask(req: Request, res: Response){
-        let updateUserTaskOutput: IUpdateUserTaskOutput;
+    public async updateTask(req: Request, res: Response){
+        let updateTaskOutput: IUpdateTaskOutput;
         try{
             const { taskId } = req.params;
-            const { userJwt, taskTitle, taskDescription, taskStatus }: IUpdateUserTaskBody = req.body;
+            const { userJwt, taskTitle, taskDescription, taskStatus }: IUpdateTaskBody = req.body;
 
             const taskToUpdate: IUpdateTaskByTaskIdAndUserIdInput = {
                 taskId: parseInt(taskId),
@@ -136,24 +136,24 @@ class TaskController {
 
             const updateTaskByTaskIdAndUserIdResponse = await this.taskService.updateTaskByTaskIdAndUserId(taskToUpdate);
             if(updateTaskByTaskIdAndUserIdResponse.affected == 0){
-                updateUserTaskOutput = { taskFound: false, taskUpdated: false, message: taskMessage.no_task_found };
+                updateTaskOutput = { taskFound: false, taskUpdated: false, message: taskMessage.no_task_found };
 
-                return res.status(200).send(updateUserTaskOutput);
+                return res.status(200).send(updateTaskOutput);
             }
 
-            updateUserTaskOutput = { taskFound: true, taskUpdated: true, message: taskMessage.task_updated };
+            updateTaskOutput = { taskFound: true, taskUpdated: true, message: taskMessage.task_updated };
 
-            return res.status(200).send(updateUserTaskOutput);
+            return res.status(200).send(updateTaskOutput);
         }catch{
             res.status(500).send({message: message.error.something_wrong_try_again_later});
         }
     }
 
-    public async updateUserTaskDateConclusion(req: Request, res: Response){
-        let updateUserTaskDateConclusionOutput: IUpdateUserTaskDateConclusionOutput;
+    public async updateTaskDateConclusion(req: Request, res: Response){
+        let updateTaskDateConclusionOutput: IUpdateTaskDateConclusionOutput;
         try{
             const { taskId } = req.params;
-            const { userJwt, taskCompleted }: IUpdateUserTaskDateConclusionBody = req.body;
+            const { userJwt, taskCompleted }: IUpdateTaskDateConclusionBody = req.body;
 
             const now = getDateTime();
 
@@ -165,14 +165,14 @@ class TaskController {
 
             const updateTaskDateConclusionByTaskIdAndUserIdResponse = await this.taskService.updateTaskDateConclusionByTaskIdAndUserId(taskToUpdate);
             if(updateTaskDateConclusionByTaskIdAndUserIdResponse.affected == 0){
-                updateUserTaskDateConclusionOutput = { taskFound: false, taskUpdated: false, message: taskMessage.no_task_found }
+                updateTaskDateConclusionOutput = { taskFound: false, taskUpdated: false, message: taskMessage.no_task_found }
 
-                return res.status(200).send(updateUserTaskDateConclusionOutput);
+                return res.status(200).send(updateTaskDateConclusionOutput);
             }
 
-            updateUserTaskDateConclusionOutput = { taskFound: true, taskUpdated: true, message: taskMessage.task_updated };
+            updateTaskDateConclusionOutput = { taskFound: true, taskUpdated: true, message: taskMessage.task_updated };
 
-            res.status(200).send(updateUserTaskDateConclusionOutput);
+            res.status(200).send(updateTaskDateConclusionOutput);
         }catch{
             res.status(500).send({message: message.error.something_wrong_try_again_later});
         }

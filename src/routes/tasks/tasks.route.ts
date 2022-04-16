@@ -8,7 +8,7 @@ import taskRoute from './task/task.route';
 
 const router = express.Router();
 
-router.get("/get", verifyUserJwt(), taskController.getUserTasks.bind(taskController));
+router.get("/get", verifyUserJwt(), taskController.getTasks.bind(taskController));
 
 router.use("/task", taskRoute)
 
