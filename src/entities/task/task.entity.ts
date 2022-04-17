@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { IUser, UserEntity } from "../user/user.entity";
+import { ITaskTag, TaskTagEntity } from "../task_tag/task_tag.entity";
 
 export interface ITask {
     task_id: number;
@@ -43,4 +44,7 @@ export class TaskEntity implements ITask {
     @JoinColumn({name: "task_user"})
     @ManyToOne(() => UserEntity, task_user => task_user.tasks)
     task_user: IUser | number;
+
+    @OneToMany(() => TaskTagEntity, task_tag => task_tag.task_id)
+    tags: ITaskTag[];
 }

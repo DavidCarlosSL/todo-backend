@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { ITask, TaskEntity } from "../task/task.entity";
+import { ITag, TagEntity } from "../tag/tag.entity";
 
 export interface IUser {
     user_id: number;
@@ -31,4 +32,7 @@ export class UserEntity implements IUser {
 
     @OneToMany(() => TaskEntity, task => task.task_user)
     tasks: ITask[];
+
+    @OneToMany(() => TagEntity, tag => tag.tag_user)
+    tags: ITag[];
 }

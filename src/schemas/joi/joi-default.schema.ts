@@ -11,3 +11,7 @@ export const JDefaultAuthenticatedUserSchema: Joi.PartialSchemaMap = {
 export const JDefaultTaskIdSchema: Joi.PartialSchemaMap = {
     taskId: Joi.number().integer().greater(0).less(1000000000).required()
 }
+
+export const JDefaultTagIdSchema: Joi.PartialSchemaMap = {
+    tagId: Joi.number().integer().greater(0).less(1000000000).required()
+}
