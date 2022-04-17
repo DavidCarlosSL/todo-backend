@@ -5,7 +5,7 @@ import { IUserService, UserService } from "../../services/user/user.service";
 import { IJwtService, JwtService } from "../../services/jsonwebtoken/jwt.service";
 
 import { IAuthenticateUserBody, IGetUserByEmailInput, IAuthenticateUserOutput } from "../../interfaces/user/user-authentication.authenticate.interface";
-import { IEnrollUserBody, IEnrollUserInput } from "../../interfaces/user/user-authentication.enroll.interface";
+import { IEnrollUserBody, IEnrollUserInput, IEnrollUserOutput } from "../../interfaces/user/user-authentication.enroll.interface";
 import { ISignJwtInput } from "../../interfaces/jwt/jwt.interface";
 
 import message from "../../utils/messages/index.json";
@@ -40,7 +40,7 @@ class UserController {
                 userName: getUserByEmailResponse.user_name 
             };
             const jwt = await this.jwtService.signJwt(jwtPayload);
-            authenticateUserOutput = { userFound: true, jwt: jwt };
+            authenticateUserOutput = { userFound: true, jwt: jwt, message: messageUser.user_authenticated };
 
             res.status(200).send(authenticateUserOutput);
         }catch{
@@ -49,14 +49,18 @@ class UserController {
     }
 
     public async enrollUser(req: Request, res: Response){
+        let enrollUserOutput: IEnrollUserOutput;
         try{
             const { userName, userEmail, userPassword }: IEnrollUserBody = req.body;
 
             const userToVerifyEnrollment: IGetUserByEmailInput = { userEmail: userEmail };
 
             const getUserByEmailResponse = await this.userService.getUserByEmail(userToVerifyEnrollment);
-            if(getUserByEmailResponse != undefined)
-                return res.status(200).send({ emailBeingUsed: true, userHasEnrolled: false, message: messageUser.email_being_used });
+            if(getUserByEmailResponse != undefined){
+                enrollUserOutput = { emailBeingUsed: true, userEnrolled: false, message: messageUser.email_being_used };
+
+                return res.status(200).send(enrollUserOutput);
+            }
 
             const hashedPassword = await bcrypt.hash(userPassword, 10);
             const now = getDateTime();
@@ -70,7 +74,9 @@ class UserController {
 
             await this.userService.enrollUser(userToEnroll);
 
-            res.status(200).send({emailBeingUsed: false, userHasEnrolled: true, message: messageUser.user_enrolled_successfully});
+            enrollUserOutput = {emailBeingUsed: false, userEnrolled: true, message: messageUser.user_enrolled_successfully};
+
+            res.status(200).send(enrollUserOutput);
         }catch{
             res.status(500).send({message: message.error.something_wrong_try_again_later});
         }
