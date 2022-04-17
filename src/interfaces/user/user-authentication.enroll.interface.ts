@@ -10,3 +10,9 @@ export interface IEnrollUserInput {
     userPassword: string;
     userCreatedAt: string;
 }
+
+export interface IEnrollUserOutput {
+    emailBeingUsed: boolean;
+    userEnrolled: boolean;
+    message: string;
+}
