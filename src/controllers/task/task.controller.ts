@@ -89,7 +89,7 @@ class TaskController {
                 message: taskMessage.new_task_saved
             };
 
-            res.status(200).send(saveNewTaskOutput);
+            res.status(201).send(saveNewTaskOutput);
         }catch{
             res.status(500).send({message: message.error.something_wrong_try_again_later});
         }

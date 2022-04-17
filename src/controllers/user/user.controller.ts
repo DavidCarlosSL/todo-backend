@@ -76,7 +76,7 @@ class UserController {
 
             enrollUserOutput = {emailBeingUsed: false, userEnrolled: true, message: messageUser.user_enrolled_successfully};
 
-            res.status(200).send(enrollUserOutput);
+            res.status(201).send(enrollUserOutput);
         }catch{
             res.status(500).send({message: message.error.something_wrong_try_again_later});
         }
