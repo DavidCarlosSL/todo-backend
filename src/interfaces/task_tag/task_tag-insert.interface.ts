@@ -13,6 +13,7 @@ export interface ISaveNewTaskTagOutput {
     allTagsFound?: boolean;
     tagsNotFound?: ITagId[];
     
+    hasTagsAlreadyAssociated?: boolean;
     tagsAlreadyAssociated?: ITagId[];
 
     newTagsAssociated: boolean;

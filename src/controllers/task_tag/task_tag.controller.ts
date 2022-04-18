@@ -54,7 +54,7 @@ class TaskTagController {
                 saveNewTaskTagOutput = {
                     taskFound: true, 
                     allTagsFound: false, 
-                    tagsNotFound, 
+                    tagsNotFound: tagsNotFound, 
                     newTagsAssociated: false, 
                     message: taskTagMessage.not_all_tags_was_found
                 };
@@ -66,7 +66,8 @@ class TaskTagController {
                 saveNewTaskTagOutput = {
                     taskFound: true,
                     allTagsFound: true,
-                    tagsAlreadyAssociated,
+                    hasTagsAlreadyAssociated: true,
+                    tagsAlreadyAssociated: tagsAlreadyAssociated,
                     newTagsAssociated: false,
                     message: taskTagMessage.task_tags_already_associated
                 };
