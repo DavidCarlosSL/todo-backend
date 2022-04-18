@@ -1,0 +1,4 @@
+{
+    "liveness_ok": "Liveness OK. API is up and running",
+    "readiness_ok": "Readiness OK"
+}
