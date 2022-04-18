@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "serve": "ts-node-dev src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
     "test": "exit 0"
   },
   "repository": {
