@@ -11,6 +11,10 @@ export interface ITag {
     tag_user: IUser | number;
 }
 
+export interface ITagId {
+    tagId: number;
+}
+
 @Entity({name: "tag"})
 export class TagEntity implements ITag {
 
@@ -31,5 +35,5 @@ export class TagEntity implements ITag {
     tag_user: IUser | number;
 
     @OneToMany(() => TaskTagEntity, task_tag => task_tag.tag_id)
-    tasks: ITaskTag[];
+    tasks_tag: ITaskTag[];
 }

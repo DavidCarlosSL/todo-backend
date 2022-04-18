@@ -46,5 +46,5 @@ export class TaskEntity implements ITask {
     task_user: IUser | number;
 
     @OneToMany(() => TaskTagEntity, task_tag => task_tag.task_id)
-    tags: ITaskTag[];
+    task_tags: ITaskTag[];
 }

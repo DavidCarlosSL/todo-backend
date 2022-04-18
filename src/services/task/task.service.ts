@@ -47,18 +47,22 @@ export class TaskService implements ITaskService {
 
     public async getTasksByUserId(getTasksByUserIdInput: IGetTasksByUserIdInput): Promise<ITask[]> {
         try{
-            return await this.taskRepository.createQueryBuilder()
-            .where("task_user = :userId", { userId: getTasksByUserIdInput.taskUserId })
+            return await this.taskRepository.createQueryBuilder("task")
+            .leftJoinAndSelect("task.task_tags", "task_tag")
+            .leftJoinAndSelect("task_tag.tag_id", "tag")
+            .where("task.task_user = :userId", { userId: getTasksByUserIdInput.taskUserId })
             .getMany();
-        }catch(error){ 
+        }catch(error){
             throw error;
         }
     }
 
     public async getTaskByTaskIdAndUserId(getTaskByUserIdInput: IGetTaskByTaskIdAndUserIdInput): Promise<ITask | undefined>{
         try{
-            return await this.taskRepository.createQueryBuilder()
-            .where("task_id = :taskId AND task_user = :taskUserId", { taskId: getTaskByUserIdInput.taskId, taskUserId: getTaskByUserIdInput.taskUserId })
+            return await this.taskRepository.createQueryBuilder("task")
+            .leftJoinAndSelect("task.task_tags", "task_tag")
+            .leftJoinAndSelect("task_tag.tag_id", "tag")
+            .where("task.task_id = :taskId AND task_user = :taskUserId", { taskId: getTaskByUserIdInput.taskId, taskUserId: getTaskByUserIdInput.taskUserId })
             .getOne();
         }catch(error){
             throw error;

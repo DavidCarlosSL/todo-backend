@@ -16,10 +16,10 @@ export class TaskTagEntity implements ITaskTag {
     task_tag_id: number;
 
     @JoinColumn({name: "task_id"})
-    @ManyToOne(() => TaskEntity, task => task.tags)
+    @ManyToOne(() => TaskEntity, task => task.task_tags)
     task_id: ITask | number;
 
     @JoinColumn({name: "tag_id"})
-    @ManyToOne(() => TagEntity, tag => tag.tasks)
+    @ManyToOne(() => TagEntity, tag => tag.tasks_tag)
     tag_id: ITag | number;
 }
