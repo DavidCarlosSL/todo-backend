@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 
 import { ITaskService, TaskService } from "../../services/task/task.service";
 
-import { IInsertTaskInput, ISaveNewTaskBody, ISaveNewTaskOutput } from "../../interfaces/task/task-insert.interface";
 import {
     IGetTaskByTaskIdAndUserIdInput,
     IGetTasksByUserIdInput,
@@ -11,8 +10,16 @@ import {
     IGetTasksBody,
     IGetTasksOutput
 } from "../../interfaces/task/task-get.interface";
+import {
+    IUpdateTaskByTaskIdAndUserIdInput,
+    IUpdateTaskDateConclusionByTaskIdAndUserIdInput,
+    IUpdateTaskBody,
+    IUpdateTaskDateConclusionBody,
+    IUpdateTaskDateConclusionOutput,
+    IUpdateTaskOutput 
+} from "../../interfaces/task/task-update.interface";
 import { IDeleteTaskByTaskIdAndUserIdInput, IDeleteTaskBody, IDeleteTaskOutput } from "../../interfaces/task/task-delete.interface";
-import { IUpdateTaskByTaskIdAndUserIdInput, IUpdateTaskDateConclusionByTaskIdAndUserIdInput, IUpdateTaskBody, IUpdateTaskDateConclusionBody, IUpdateTaskDateConclusionOutput, IUpdateTaskOutput } from "../../interfaces/task/task-update.interface";
+import { IInsertTaskInput, ISaveNewTaskBody, ISaveNewTaskOutput } from "../../interfaces/task/task-insert.interface";
 
 import message from '../../utils/messages/index.json';
 import taskMessage from '../../utils/messages/task/task.messages.json';

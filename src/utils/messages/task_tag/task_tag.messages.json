@@ -1,0 +1,8 @@
+{
+    "not_all_tags_was_found": "Not all tags were found",
+    "no_task_found": "No task found",
+    "task_tags_associated": "New tags were associated",
+    "task_tags_already_associated": "Some of the given tags is already associated",
+    "not_all_task_tags_association_were_found": "Not all task tags association were found",
+    "tags_dissociated": "Tags were dissociated"
+}
