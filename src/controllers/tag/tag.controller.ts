@@ -83,7 +83,7 @@ class TagController {
             if(getTagByTagIdAndUserIdResponse == undefined){
                 getTagOutput = { tagFound: false, message: tagMessage.no_tag_found };
 
-                return res.status(200).send(getTagOutput);
+                return res.status(404).send(getTagOutput);
             }
 
             getTagOutput = { tagFound: true, tag: getTagByTagIdAndUserIdResponse, message: tagMessage.tag_found };
@@ -111,7 +111,7 @@ class TagController {
             if(updateTagByTagIdAndUserIdResponse.affected == 0){
                 updateTagOutput = { tagFound: false, tagUpdated: false, message: tagMessage.no_tag_found };
 
-                return res.status(200).send(updateTagOutput);
+                return res.status(404).send(updateTagOutput);
             }
             
             updateTagOutput = { tagFound: true, tagUpdated: true, message: tagMessage.tag_updated };
@@ -134,7 +134,7 @@ class TagController {
             if(deleteTagByTagIdAndUserIdResponse.affected == 0){
                 deleteTagOutput = { tagFound: false, tagDeleted: false, message: tagMessage.no_tag_found };
 
-                return res.status(200).send(deleteTagOutput);
+                return res.status(404).send(deleteTagOutput);
             }
 
             deleteTagOutput = { tagFound: true, tagDeleted: true, message: tagMessage.tag_deleted };
