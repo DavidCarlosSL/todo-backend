@@ -63,7 +63,7 @@ class TaskController {
             if(getTaskByTaskIdAndUserIdResponse == undefined){
                 getTaskOutput = { taskFound: false, message: taskMessage.no_task_found };
                 
-                return res.status(200).send(getTaskOutput);
+                return res.status(404).send(getTaskOutput);
             }
 
             getTaskOutput = { taskFound: true, task: getTaskByTaskIdAndUserIdResponse, message: taskMessage.task_found };
@@ -114,7 +114,7 @@ class TaskController {
             if(deleteTaskByTaskIdAndUserIdResponse.affected == 0){
                 deleteTaskOutput = { taskFound: false, taskDeleted: false, message: taskMessage.no_task_found }
 
-                return res.status(200).send(deleteTaskOutput);
+                return res.status(404).send(deleteTaskOutput);
             }
 
             deleteTaskOutput = { taskFound: true, taskDeleted: true, message: taskMessage.task_deleted }
@@ -145,7 +145,7 @@ class TaskController {
             if(updateTaskByTaskIdAndUserIdResponse.affected == 0){
                 updateTaskOutput = { taskFound: false, taskUpdated: false, message: taskMessage.no_task_found };
 
-                return res.status(200).send(updateTaskOutput);
+                return res.status(404).send(updateTaskOutput);
             }
 
             updateTaskOutput = { taskFound: true, taskUpdated: true, message: taskMessage.task_updated };
@@ -174,7 +174,7 @@ class TaskController {
             if(updateTaskDateConclusionByTaskIdAndUserIdResponse.affected == 0){
                 updateTaskDateConclusionOutput = { taskFound: false, taskUpdated: false, message: taskMessage.no_task_found }
 
-                return res.status(200).send(updateTaskDateConclusionOutput);
+                return res.status(404).send(updateTaskDateConclusionOutput);
             }
 
             updateTaskDateConclusionOutput = { taskFound: true, taskUpdated: true, message: taskMessage.task_updated };

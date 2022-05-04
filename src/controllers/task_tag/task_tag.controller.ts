@@ -27,7 +27,7 @@ class TaskTagController {
             if(getTaskByTaskIdAndUserIdResponse == undefined){
                 saveNewTaskTagOutput = { taskFound: false, newTagsAssociated: false, message: taskTagMessage.no_task_found};
 
-                return res.status(200).send(saveNewTaskTagOutput);
+                return res.status(404).send(saveNewTaskTagOutput);
             }
 
             const tagsNotFound: ITagId[] = [];
@@ -96,7 +96,7 @@ class TaskTagController {
             if(getTaskByTaskIdAndUserIdResponse == undefined){
                 deleteTaskTagOutput = { taskFound: false, tagsDissociated: false, message: taskTagMessage.no_task_found};
 
-                return res.status(200).send(deleteTaskTagOutput);
+                return res.status(404).send(deleteTaskTagOutput);
             }
 
             const tagsNotFound: ITagId[] = [];
