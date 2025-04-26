@@ -13,6 +13,7 @@ export function pgsqlConnectionOptions(): ConnectionOptions {
         database: process.env.APPLICATION_PGSQL_DATABASE,
         entities: pgsqlConnectionEntities,
         logging: process.env.NODE_ENV == 'development' ? "all" : false,
-        logger: "advanced-console"
+        logger: "advanced-console",
+        ssl: { rejectUnauthorized: false }
     }
 }
