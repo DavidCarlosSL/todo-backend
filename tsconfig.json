@@ -12,7 +12,8 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "strictPropertyInitialization": false,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "lib": ["ES2015"]
     },
     "exclude": ["node_modules"],
     "include": ["src/**/*"]
